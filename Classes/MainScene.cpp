@@ -6,74 +6,77 @@ USING_NS_CC;
 
 using namespace cocostudio::timeline;
 
-Scene* MainScene::createScene()
+Scene * MainScene::createScene()
 {
-  // 'scene' is an autorelease object
-  auto scene = Scene::create();
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
 
-  // 'layer' is an autorelease object
-  auto layer = MainScene::create();
+    // 'layer' is an autorelease object
+    auto layer = MainScene::create();
 
-  // add layer as a child to scene
-  scene->addChild( layer );
+    // add layer as a child to scene
+    scene->addChild( layer );
 
-  // return the scene
-  return scene;
+    // return the scene
+    return scene;
 }
 
 // on "init" you need to initialize your instance
 bool MainScene::init()
 {
-  //////////////////////////////
-  // 1. super init first
-  if ( !Layer::init() ) {
-    return false;
-  }
-  if ( !EventListenerKeyboard::init() ) {
-    return false;
-  }
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() )
+    {
+        return false;
+    }
 
-  auto rootNode = CSLoader::createNode( "MainScene.csb" );
+    auto rootNode = CSLoader::createNode( "MainScene.csb" );
 
-  addChild( rootNode );
+    addChild( rootNode );
 
-  this->getEventDispatcher()->addEventListener( this );
-  this->onKeyPressed = [](
-                         EventKeyboard::KeyCode keyCode,
-                         Event * pEvent
-  ) {
 
-    CCLOG( "call: %s -> keyCode: %d, event:%d",
-           "onKeyPressed",
-           keyCode,
-           pEvent ? ( int )pEvent->getType() : 0
-         );
-  };
+    this->m_pListener = EventListenerKeyboard::create();
 
-  this->onKeyReleased = [](
-                          EventKeyboard::KeyCode keyCode,
-                          Event * pEvent
-  ) {
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority( this->m_pListener, this );
+    this->setKeypadEnabled( true );
+	this->setKeyboardEnabled(true);
+    this->m_pListener->onKeyPressed =
+        [](
+            EventKeyboard::KeyCode keyCode,
+            Event * pEvent
+        )
+    {
+    };
 
-    CCLOG( "call: %s -> keyCode: %d, event:%d",
-           "onKeyReleased",
-           keyCode,
-           pEvent ? ( int )pEvent->getType() : 0
-         );
-  };
+    this->m_pListener->onKeyReleased =
+        [](
+            EventKeyboard::KeyCode keyCode,
+            Event * pEvent
+        )
+    {
+        if ( keyCode == EventKeyboard::KeyCode::KEY_ESCAPE )
+        {
+            CCDirector::getInstance()->end();
+        }
+    };
 
-  return true;
+    return true;
 }
 
-MainScene* MainScene::create()
+MainScene * MainScene::create()
 {
-  MainScene *pRet = new( std::nothrow ) MainScene();
-  if ( pRet && pRet->MainScene::init() ) {
-    pRet->autorelease();
-    return pRet;
-  } else {
-    delete pRet;
-    pRet = NULL;
-    return NULL;
-  }
+    MainScene * pRet = new( std::nothrow ) MainScene();
+
+    if ( pRet && pRet->init() )
+    {
+        pRet->autorelease();
+        return pRet;
+    }
+    else
+    {
+        delete pRet;
+        pRet = NULL;
+        return NULL;
+    }
 }

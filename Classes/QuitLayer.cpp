@@ -16,10 +16,10 @@ bool QuitLayer::init()
     {
         return false;
     }
-    
-    auto rootNode = CSLoader::createNode("QuitLayer.csb");
 
-    addChild(rootNode);
+    auto rootNode = CSLoader::createNode( "QuitLayer.csb" );
+
+    addChild( rootNode );
 
     return true;
 }

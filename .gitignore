@@ -35,3 +35,5 @@
 *.ilk
 *.suo
 *.user
+*.sdf
+*.opensdf

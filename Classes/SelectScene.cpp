@@ -6,16 +6,16 @@ USING_NS_CC;
 
 using namespace cocostudio::timeline;
 
-Scene* SelectScene::createScene()
+Scene * SelectScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
+
     // 'layer' is an autorelease object
     auto layer = SelectScene::create();
 
     // add layer as a child to scene
-    scene->addChild(layer);
+    scene->addChild( layer );
 
     // return the scene
     return scene;
@@ -30,10 +30,10 @@ bool SelectScene::init()
     {
         return false;
     }
-    
-    auto rootNode = CSLoader::createNode("SelectScene.csb");
 
-    addChild(rootNode);
+    auto rootNode = CSLoader::createNode( "SelectScene.csb" );
+
+    addChild( rootNode );
 
     return true;
 }
