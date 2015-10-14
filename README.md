@@ -1,2 +1,2 @@
 # UnifyIt
-a game base on cocos2d-x 3
+a game base on cocos2d-x 3.8
